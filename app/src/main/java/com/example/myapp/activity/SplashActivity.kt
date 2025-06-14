@@ -19,9 +19,21 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, SignInActivity::class.java)
-            startActivity(intent)
-            finish()
+            checkLoginStatus()
         }, splashTimeout)
+    }
+
+    private fun checkLoginStatus() {
+//        val sharedPreferences = getSharedPreferences("auth_prefs", MODE_PRIVATE)
+//        val token = sharedPreferences.getString("access_token", null)
+
+//        val intent = if (!token.isNullOrEmpty()) {
+//            Intent(this, HomeActivity::class.java)
+//        } else {
+            val intent =   Intent(this, SignInActivity::class.java)
+//        }
+
+        startActivity(intent)
+        finish()
     }
 }

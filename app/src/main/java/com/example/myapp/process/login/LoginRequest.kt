@@ -17,3 +17,7 @@ data class RegisterRequest(
     val repeatpassword: String
 )
 
+data class LogoutResponse(
+    val message: String
+)
+

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.myapp.R
 import com.example.myapp.databinding.ActivitySignInBinding
 import com.example.myapp.process.RetrofitClient
 import com.example.myapp.process.login.LoginRequest
@@ -47,7 +48,11 @@ class SignInActivity : AppCompatActivity() {
             val password = binding.edtPassword.text.toString().trim()
 
             if (username.isEmpty() || password.isEmpty()) {
-                Snackbar.make(btnLogin, "Email và mật khẩu không được để trống", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(
+                    btnLogin,
+                    getString(R.string.email_password_required),
+                    Snackbar.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
@@ -64,7 +69,8 @@ class SignInActivity : AppCompatActivity() {
 
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    Snackbar.make(btnLogin, "Đăng nhập thất bại", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(btnLogin, getString(R.string.login_failed), Snackbar.LENGTH_SHORT)
+                        .show()
                 }
             }
         }

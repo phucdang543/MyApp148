@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="light_blue_600">#FF039BE5</color>
-
     <color name="light_blue_900">#FF01579B</color>
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
-
     <color name="textColorPrimary">#000000</color>
     <color name="textColorSecondary">#6D6E70</color>
-
     <color name="black_overlay">#667C7474</color>
     <color name="nen">#3C3831</color>
     <color name="colorPrimary">#07112a</color>
     <color name="colorPrimaryDark">#07112a</color>
-
     <color name="colorAccent">#ff835f</color>
     <color name="brown148">#95746B</color>
-    <color name="orange">#ff835f</color>
     <color name="lightblue">#111B34</color>
     <color name="lightwhite">#33FFFFFF</color>
     <color name="purple_200">#FFBB86FC</color>
@@ -24,14 +19,67 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="yellow">#FFC107</color>
-    <color name="transparent">#00000000</color>
     <color name="tran_parent">#66000000</color>
     <color name="background_bottom">#66E6DBDB</color>
-    <color name="blue">#2196F3</color>
-    <color name="black">#FF000000</color>
     <color name="xam">#4A4545</color>
-    <color name="red">#F80A0A</color>
-    <color name="white">#FFFFFFFF</color>
     <color name="xam2">#393838</color>
+    <color name="drawer_item_color">@color/nav_drawer_item_selector</color>
+    <color name="bottom_nav_color">@color/bottom_nav_item_selector</color>
+    <color name="background_color">#000000</color>
+    <color name="card_background">#1C1C1E</color>
+    <color name="card_background_light">#2C2C2E</color>
+    <color name="primary_color">#FA2D48</color>
+    <color name="primary_dark">#D11A35</color>
+    <color name="accent_color">#FA2D48</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#8E8E93</color>
+    <color name="gray_light">#AEAEB2</color>
+    <color name="gray_dark">#48484A</color>
+    <color name="gray_darker">#2C2C2E</color>
+    <color name="gray_system">#6D6D70</color>
+    <color name="red">#FF453A</color>
+    <color name="green">#30D158</color>
+    <color name="blue">#007AFF</color>
+    <color name="orange">#FF9F0A</color>
+    <color name="yellow">#FFD60A</color>
+    <color name="purple">#BF5AF2</color>
+    <color name="pink">#FF2D92</color>
+    <color name="drawer_background">#1C1C1E</color>
+    <color name="bottom_nav_background">#1C1C1E</color>
+    <color name="nav_divider">#48484A</color>
+    <color name="music_gradient_start">#FA2D48</color>
+    <color name="music_gradient_end">#FF6B6B</color>
+    <color name="apple_red">#FA2F4A</color>
+    <color name="apple_blue">#007AFF</color>
+    <color name="apple_purple">#AF52DE</color>
+    <color name="apple_green">#34C759</color>
+    <color name="apple_orange">#FF9500</color>
+    <color name="background_dark">#000000</color>
+    <color name="background_secondary">#1C1C1E</color>
+    <color name="background_tertiary">#2C2C2E</color>
+    <color name="glass_background">#1A1A1A</color>
+    <color name="glass_card">#1E1E1E</color>
+    <color name="glass_light">#2A2A2A</color>
+    <color name="glass_dark">#15151580</color>
+    <color name="glass_navigation">#1A1A1AE6</color>
+    <color name="glass_input">#1E1E1E</color>
+    <color name="apple_gray">#8E8E93</color>
+    <color name="apple_gray_light">#C7C7CC</color>
+    <color name="apple_dark">#1C1C1E</color>
+    <color name="search_bar_background">#1E1E1E</color>
+    <color name="drawer_background_dark">#000000</color>
+    <color name="success">#34C759</color>
+    <color name="warning">#FF9500</color>
+    <color name="error">#FF453A</color>
+    <color name="transparent">#00000000</color>
+    <color name="semi_transparent_black">#80000000</color>
+    <color name="semi_transparent_white">#80FFFFFF</color>
+    <color name="apple_background">#000000</color>
+    <color name="apple_background_secondary">#1C1C1E</color>
+    <color name="apple_card_background">#2C2C2E</color>
+    <color name="apple_accent">#FF375F</color>
+    <color name="apple_accent_dark">#FF2D4F</color>
+    <color name="apple_gray_dark">#48484A</color>
+    <color name="apple_red_dark">#D70015</color>
 </resources>

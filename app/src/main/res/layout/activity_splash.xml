@@ -4,34 +4,53 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@drawable/apple_splash_gradient">
 
-    <!-- Layout chính chứa ảnh + tên app -->
     <LinearLayout
         android:id="@+id/layout_center"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/layout_text"
+        app:layout_constraintBottom_toTopOf="@id/layout_text"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="@dimen/define_dimen_150"
-            android:layout_height="@dimen/define_dimen_150"
-            android:src="@drawable/img_avatar_default"
-            app:civ_border_color="@color/yellow"
-            app:civ_border_width="2dp" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            app:cardBackgroundColor="@color/apple_red"
+            app:cardCornerRadius="35dp"
+            app:cardElevation="24dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="28dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_music_apple_logo" />
+
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/define_dimen_20"
-            android:text="@string/tv_title"
-            android:textColor="@color/yellow"
-            android:textSize="@dimen/text_size_large" />
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/sf_pro_display_heavy"
+            android:letterSpacing="-0.02"
+            android:text="Music"
+            android:textColor="@color/white"
+            android:textSize="42sp"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="32dp"
+            android:indeterminateTint="@color/apple_red" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -40,26 +59,37 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/define_dimen_12"
+        android:padding="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/tv_about_us_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_small" />
+            android:fontFamily="@font/sf_pro_display_medium"
+            android:text="@string/splash_title"
+            android:textColor="@color/apple_gray_light"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_about_us_slogan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:layout_marginBottom="@dimen/define_dimen_10"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_small" />
+            android:fontFamily="@font/sf_pro_display_regular"
+            android:text="@string/splash_subtitle"
+            android:textColor="@color/apple_gray"
+            android:textSize="17sp" />
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="4dp"
+            android:background="@drawable/apple_bottom_indicator" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.myapp.R
 import com.example.myapp.databinding.ActivitySignUpBinding
 import com.example.myapp.process.RetrofitClient
 import com.example.myapp.process.login.RegisterRequest
@@ -62,24 +63,41 @@ class SignUpActivity : AppCompatActivity() {
                         when (response.code()) {
                             201 -> {
                                 val bodyString = response.body()?.string()
-                                Snackbar.make(binding.root, bodyString ?: "Đăng ký thành công", Snackbar.LENGTH_SHORT).show()
+                                Snackbar.make(
+                                    binding.root,
+                                    bodyString ?: getString(R.string.signup_success),
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
                                 btnSignIn.postDelayed({
                                     finish()
                                 }, 1500)
                             }
 
-                            400 -> Snackbar.make(btnSignIn, "Yêu cầu không hợp lệ", Snackbar.LENGTH_SHORT).show()
-                            409 -> Snackbar.make(btnSignIn, "Tên đăng nhập đã tồn tại", Snackbar.LENGTH_SHORT).show()
+                            400 -> Snackbar.make(
+                                btnSignIn,
+                                getString(R.string.invalid_request),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+
+                            409 -> Snackbar.make(
+                                btnSignIn,
+                                getString(R.string.username_exists),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
                             else -> Snackbar.make(
                                 btnSignIn,
-                                "Lỗi không xác định: ${response.code()}",
+                                getString(R.string.unknown_error_code, response.code()),
                                 Snackbar.LENGTH_SHORT
                             ).show()
                         }
 
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        Snackbar.make(btnSignIn, "Lỗi máy chủ hoặc kết nối", Snackbar.LENGTH_SHORT)
+                        Snackbar.make(
+                            btnSignIn,
+                            getString(R.string.server_connection_error),
+                            Snackbar.LENGTH_SHORT
+                        )
                             .show()
                     }
                 }
@@ -97,10 +115,12 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun checkInfor(name: String, username: String, password: String, repeatPassword: String): Boolean {
         if (name.isEmpty() || username.isEmpty() || password.isEmpty() || repeatPassword.isEmpty()) {
-            Snackbar.make(btnSignIn, "Vui lòng nhập đầy đủ thông tin", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(btnSignIn, getString(R.string.fill_all_fields), Snackbar.LENGTH_SHORT)
+                .show()
             return false
         } else if (password != repeatPassword) {
-            Snackbar.make(btnSignIn, "Mật khẩu không khớp", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(btnSignIn, getString(R.string.passwords_not_match), Snackbar.LENGTH_SHORT)
+                .show()
             return false
         } else return true
     }
