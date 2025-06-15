@@ -3,6 +3,7 @@ package com.example.myapp.process.playlist
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -28,7 +29,7 @@ interface PlaylistApiService {
         @Body request: AddSongToPlaylistRequest
     ): AddSongResponse
 
-    @DELETE("api/playlist/delete/{playlistId}")
+    @HTTP(method = "DELETE", path = "api/playlist/delete/{playlistId}", hasBody = true)
     suspend fun removeSongFromPlaylist(
         @Path("playlistId") playlistId: Int,
         @Body request: RemoveSongFromPlaylistRequest

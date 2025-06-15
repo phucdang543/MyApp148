@@ -21,6 +21,9 @@ class MusicManager private constructor() {
         }
     }
 
+    private val _currentPlaybackPosition = MutableLiveData<Int>(0)
+    val currentPlaybackPosition: LiveData<Int> get() = _currentPlaybackPosition
+
     private val _currentSong = MutableLiveData<Song?>()
     val currentSong: LiveData<Song?> = _currentSong
 
@@ -37,6 +40,10 @@ class MusicManager private constructor() {
     private var currentSongPosition: Int = 0
 
     var mediaPlayer: MediaPlayer? = null
+
+    fun getSavedPlaybackPosition(): Int {
+        return _currentPlaybackPosition.value ?: 0
+    }
 
     fun setCurrentSong(song: Song) {
         _currentSong.value = song

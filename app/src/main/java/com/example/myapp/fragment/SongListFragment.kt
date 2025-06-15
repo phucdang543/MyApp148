@@ -60,9 +60,9 @@ class SongListFragment : Fragment() {
             intent.putParcelableArrayListExtra("playlist", ArrayList(adapter.currentList))
             intent.putExtra("song", song)
             intent.putExtra("position", position)
+            intent.putExtra("from_mini_player", false)
             startActivity(intent)
         }
-
         binding.rcPopular.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)

@@ -40,6 +40,13 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 class HomeActivity : AppCompatActivity() {
+    companion object {
+        private const val FRAGMENT_SONGS = "songs"
+        private const val FRAGMENT_FAVORITES = "favorites"
+        private const val FRAGMENT_PLAYLISTS = "playlists"
+        private const val FRAGMENT_HISTORY = "history"
+    }
+
     private lateinit var binding: ActivityHomeBinding
     private lateinit var imgbtnMenu: ImageButton
     private lateinit var imgbtnSearch: ImageButton
@@ -65,14 +72,6 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var progressMiniPlayer: android.widget.ProgressBar
     private lateinit var songChangedReceiver: BroadcastReceiver
     private lateinit var playStateChangedReceiver: BroadcastReceiver
-
-    companion object {
-        private const val FRAGMENT_SONGS = "songs"
-        private const val FRAGMENT_FAVORITES = "favorites"
-        private const val FRAGMENT_PLAYLISTS = "playlists"
-        private const val FRAGMENT_HISTORY = "history"
-    }
-
 
     private fun setupMusicControlReceiver() {
         musicControlReceiver = MusicControlReceiver()
@@ -111,13 +110,11 @@ class HomeActivity : AppCompatActivity() {
         androidx.localbroadcastmanager.content.LocalBroadcastManager
             .getInstance(this)
             .registerReceiver(playStateChangedReceiver, filter)
-
-
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -133,6 +130,7 @@ class HomeActivity : AppCompatActivity() {
         setupMusicControlReceiver()
         setupSongChangedReceiver()
         setupPlayStateChangedReceiver()
+
         if (savedInstanceState == null) {
             loadFragment(
                 SongListFragment(),
@@ -141,6 +139,7 @@ class HomeActivity : AppCompatActivity() {
                 R.drawable.ic_person_apple
             )
         }
+
     }
 
     private fun setupWindowInsets() {
@@ -148,14 +147,12 @@ class HomeActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             val navigationBars = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
 
-
             binding.layoutTopBar.setPadding(
                 binding.layoutTopBar.paddingLeft,
                 systemBars.top,
                 binding.layoutTopBar.paddingRight,
                 binding.layoutTopBar.paddingBottom
             )
-
 
             val layoutParams =
                 binding.cardBottomNav.layoutParams as androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
@@ -261,7 +258,6 @@ class HomeActivity : AppCompatActivity() {
             R.id.nav_logout -> {
                 showLogoutConfirmation()
             }
-
         }
     }
 
@@ -277,7 +273,6 @@ class HomeActivity : AppCompatActivity() {
         tvPopularSongs.text = title
         Glide.with(this).load(icon).into(imgbtnMenu)
 
-
         updateSearchVisibility(tag)
     }
 
@@ -289,17 +284,14 @@ class HomeActivity : AppCompatActivity() {
     private fun updateSearchVisibility(fragmentTag: String) {
         val showSearchIcon = fragmentTag == FRAGMENT_SONGS
 
-
         binding.cardSearch.visibility =
             if (showSearchIcon) View.VISIBLE else View.GONE
         imgbtnSearch.visibility =
             if (showSearchIcon) View.VISIBLE else View.GONE
 
-
         if (!showSearchIcon && isSearchExpanded) {
             collapseSearchBar()
         }
-
 
         if (!isSearchExpanded) {
             binding.cardSearchBar.visibility = View.GONE
@@ -315,7 +307,6 @@ class HomeActivity : AppCompatActivity() {
         )
     }
 
-
     private fun setupSearchFunctionality() {
         imgbtnSearch.setOnClickListener {
             if (isSearchExpanded) {
@@ -330,7 +321,6 @@ class HomeActivity : AppCompatActivity() {
             true
         }
 
-
         edtSearch.addTextChangedListener(object : android.text.TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -339,12 +329,10 @@ class HomeActivity : AppCompatActivity() {
             override fun afterTextChanged(s: android.text.Editable?) {
                 val query = s.toString().trim()
                 if (query.isEmpty() && isSearchExpanded) {
-
                     resetSearchResults()
                 }
             }
         })
-
 
         binding.root.setOnClickListener {
             if (isSearchExpanded) {
@@ -363,7 +351,6 @@ class HomeActivity : AppCompatActivity() {
     private fun expandSearchBar() {
         isSearchExpanded = true
 
-
         binding.cardSearchBar.visibility = View.VISIBLE
         binding.cardSearchBar.alpha = 0f
         binding.cardSearchBar.animate()
@@ -371,23 +358,16 @@ class HomeActivity : AppCompatActivity() {
             .setDuration(200)
             .start()
 
-
         edtSearch.requestFocus()
         showKeyboard()
 
-
         imgbtnSearch.setImageResource(R.drawable.ic_close_apple)
-
-
     }
-
 
     private fun collapseSearchBar() {
         isSearchExpanded = false
 
-
         resetSearchResults()
-
 
         binding.cardSearchBar.animate()
             .alpha(0f)
@@ -398,16 +378,12 @@ class HomeActivity : AppCompatActivity() {
             }
             .start()
 
-
         hideKeyboard()
-
 
         imgbtnSearch.setImageResource(R.drawable.ic_search_apple)
 
-
         tvPopularSongs.text = getString(R.string.explore_music_title)
     }
-
 
     private fun performSearch() {
         val query = edtSearch.text.toString().trim()
@@ -442,11 +418,9 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupUserProfile() {
-
         lifecycleScope.launch {
             try {
                 val userResponse = RetrofitClient.userService.getUserProfile()
-
 
                 val headerView = navigationView.getHeaderView(0)
                 val tvUserName = headerView.findViewById<TextView>(R.id.tv_user_name)
@@ -479,8 +453,6 @@ class HomeActivity : AppCompatActivity() {
         layoutRes: Int,
         setupDialog: (View, AlertDialog) -> Unit
     ) {
-
-
         try {
             val dialogView = LayoutInflater.from(this@HomeActivity).inflate(layoutRes, null)
 
@@ -489,23 +461,19 @@ class HomeActivity : AppCompatActivity() {
                 .setCancelable(true)
                 .create()
 
-
             dialog.window?.let { window ->
                 window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 window.setDimAmount(0.7f)
-
 
                 val params = window.attributes
                 params.width = (resources.displayMetrics.widthPixels * 0.9).toInt()
                 params.height = ViewGroup.LayoutParams.WRAP_CONTENT
                 window.attributes = params
 
-
                 window.attributes = window.attributes.apply {
                     windowAnimations = R.style.DialogAnimation
                 }
             }
-
 
             setupDialog(dialogView, dialog)
 
@@ -520,15 +488,11 @@ class HomeActivity : AppCompatActivity() {
     private fun performLogout() {
         lifecycleScope.launch {
             try {
-
                 RetrofitClient.authService.logout()
             } catch (e: Exception) {
                 e.printStackTrace()
-
             } finally {
-
                 clearUserData()
-
 
                 val intent = Intent(this@HomeActivity, SignInActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -539,7 +503,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun clearUserData() {
-
         val authPrefs = getSharedPreferences("auth_prefs", MODE_PRIVATE)
         authPrefs.edit().clear().apply()
 
@@ -548,7 +511,6 @@ class HomeActivity : AppCompatActivity() {
 
         val historyPrefs = getSharedPreferences("playback_history", MODE_PRIVATE)
         historyPrefs.edit().clear().apply()
-
 
         musicManager.clear()
         musicManager.stopMusicService(this)
@@ -586,7 +548,6 @@ class HomeActivity : AppCompatActivity() {
     override fun onBackPressed() {
         when {
             isSearchExpanded -> {
-
                 collapseSearchBar()
             }
 
@@ -624,10 +585,10 @@ class HomeActivity : AppCompatActivity() {
                 hideMiniPlayer()
             }
         }
+
         musicManager.isPlaying.observe(this) { isPlaying ->
             updateMiniPlayerPlayButton(isPlaying)
         }
-
 
         musicManager.currentPosition.observe(this) { position ->
             updateMiniPlayerProgress(position)
@@ -636,7 +597,6 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setupMiniPlayer() {
         miniPlayerContainer = binding.miniPlayerContainer
-
 
         imgMiniSong = binding.miniPlayer.root.findViewById(R.id.img_mini_song)
         tvMiniSongTitle = binding.miniPlayer.root.findViewById(R.id.tv_mini_song_title)
@@ -712,6 +672,7 @@ class HomeActivity : AppCompatActivity() {
         val currentSong = musicManager.getCurrentSong()
         val playlist = musicManager.getPlaylist()
 
+
         if (currentSong != null && playlist.isNotEmpty()) {
             musicManager.syncPositionBySong()
             val position = musicManager.getCurrentSongPosition()
@@ -722,6 +683,7 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, PlaySongActivity::class.java)
             intent.putParcelableArrayListExtra("playlist", playlist)
             intent.putExtra("position", finalPosition)
+            intent.putExtra("from_mini_player", true)
             startActivity(intent)
         }
     }

@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
@@ -26,7 +25,6 @@ import com.example.myapp.service.MusicForegroundService
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.util.Locale
-
 
 class PlaySongActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPlaySongBinding
@@ -47,7 +45,6 @@ class PlaySongActivity : AppCompatActivity() {
         }
     }
 
-
     private val songChangedReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             syncWithMusicManager()
@@ -61,21 +58,18 @@ class PlaySongActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityPlaySongBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         musicManager = MusicManager.getInstance()
 
-
         val songChangedFilter = IntentFilter("com.example.myapp.SONG_CHANGED")
-
         androidx.localbroadcastmanager.content.LocalBroadcastManager
             .getInstance(this)
             .registerReceiver(songChangedReceiver, songChangedFilter)
 
-
         getIntentData()
-
 
         syncWithMusicManager()
 
@@ -84,38 +78,65 @@ class PlaySongActivity : AppCompatActivity() {
         setupSeekBar()
 
         if (playlist.isNotEmpty()) {
-
             musicManager.setPlaylist(playlist, currentPosition)
-            loadSong(currentPosition)
+
+            val fromMiniPlayer = intent.getBooleanExtra("from_mini_player", false)
+            val currentSong = playlist[currentPosition]
+            val managerCurrentSong = musicManager.getCurrentSong()
+
+            val isPlayingSameSong = managerCurrentSong != null &&
+                    managerCurrentSong.id == currentSong.id &&
+                    mediaPlayer != null &&
+                    (musicManager.isPlaying.value ?: false)
+
+            if (fromMiniPlayer && isPlayingSameSong) {
+                setupUIForCurrentSong(currentPosition)
+                checkFavoriteStatus(currentSong.id)
+                if (isPlaying) {
+                    startProgressUpdate()
+                }
+            } else {
+                loadSong(currentPosition)
+            }
         }
 
         handleControlAction(intent)
     }
 
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
+    private fun setupUIForCurrentSong(position: Int) {
+        if (position < 0 || position >= playlist.size) return
 
-        handleControlAction(intent)
+        val currentSong = playlist[position]
+        binding.tvSongName.text = currentSong.title
+        binding.tvArtistName.text = currentSong.artist.name
+        binding.tvTimeMax.text = formatDuration(currentSong.duration)
+        binding.seekBar.max = currentSong.duration * 1000
+
+        mediaPlayer?.let { player ->
+            binding.seekBar.progress = player.currentPosition
+            binding.tvTimeCurrent.text = formatDuration(player.currentPosition / 1000)
+        }
+
+        val playButtonRes = if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play
+        binding.imgbtnPlay.setImageResource(playButtonRes)
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleControlAction(intent)
+    }
 
     private fun handleControlAction(intent: Intent?) {
         val controlAction = intent?.getStringExtra("control_action")
 
-
         when (controlAction) {
             "previous" -> {
-
                 previousSong()
             }
-
             "play_pause" -> {
-
                 togglePlayPause()
             }
-
             "next" -> {
-
                 nextSong()
             }
         }
@@ -215,9 +236,9 @@ class PlaySongActivity : AppCompatActivity() {
         currentPosition = position
         val currentSong = playlist[currentPosition]
 
-
         binding.tvSongName.text = currentSong.title
         binding.tvArtistName.text = currentSong.artist.name
+        Glide.with(this).load(currentSong.imageUrl).into(binding.imgSong)
         binding.tvTimeMax.text = formatDuration(currentSong.duration)
         binding.tvTimeCurrent.text = "00:00"
         binding.seekBar.max = currentSong.duration * 1000
@@ -247,7 +268,6 @@ class PlaySongActivity : AppCompatActivity() {
             musicManager.setPlayingState(false)
 
             val currentSong = playlist[currentPosition]
-
 
             musicManager.startMusicService(this, currentSong)
 
@@ -299,7 +319,6 @@ class PlaySongActivity : AppCompatActivity() {
                 startProgressUpdate()
             }
 
-
             musicManager.syncStateFromActivity(
                 playlist[currentPosition],
                 isPlaying,
@@ -311,7 +330,6 @@ class PlaySongActivity : AppCompatActivity() {
     }
 
     private fun nextSong() {
-
         if (currentPosition < playlist.size - 1) {
             currentPosition++
             loadSong(currentPosition)
@@ -320,7 +338,6 @@ class PlaySongActivity : AppCompatActivity() {
     }
 
     private fun previousSong() {
-
         if (currentPosition > 0) {
             currentPosition--
             loadSong(currentPosition)
@@ -351,7 +368,6 @@ class PlaySongActivity : AppCompatActivity() {
         } else {
             startService(updateIntent)
         }
-
     }
 
     private fun replaySong() {
@@ -433,8 +449,6 @@ class PlaySongActivity : AppCompatActivity() {
                 val currentPosition = player.currentPosition
                 binding.seekBar.progress = currentPosition
                 binding.tvTimeCurrent.text = formatDuration(currentPosition / 1000)
-
-
                 musicManager.setCurrentPosition(currentPosition / 1000)
             }
         }
@@ -455,9 +469,7 @@ class PlaySongActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-
         stopProgressUpdate()
-
 
         try {
             androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -477,7 +489,6 @@ class PlaySongActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-
         syncWithMusicManager()
         updateUIFromCurrentState()
 
@@ -493,10 +504,8 @@ class PlaySongActivity : AppCompatActivity() {
             binding.tvArtistName.text = currentSong.artist.name
             Glide.with(this).load(currentSong.imageUrl).into(binding.imgSong)
 
-
             val playButtonRes = if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play
             binding.imgbtnPlay.setImageResource(playButtonRes)
-
 
             mediaPlayer?.let { player ->
                 if (player.isPlaying || isPlaying) {
@@ -511,7 +520,6 @@ class PlaySongActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 savePlaybackHistoryLocal(songId)
-
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -523,4 +531,5 @@ class PlaySongActivity : AppCompatActivity() {
         val currentTime = System.currentTimeMillis()
         prefs.edit { putLong("song_${songId}_last_played", currentTime) }
     }
+
 }

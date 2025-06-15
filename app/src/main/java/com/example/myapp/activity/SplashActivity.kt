@@ -24,14 +24,14 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkLoginStatus() {
-//        val sharedPreferences = getSharedPreferences("auth_prefs", MODE_PRIVATE)
-//        val token = sharedPreferences.getString("access_token", null)
+        val sharedPreferences = getSharedPreferences("auth_prefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("access_token", null)
 
-//        val intent = if (!token.isNullOrEmpty()) {
-//            Intent(this, HomeActivity::class.java)
-//        } else {
-            val intent =   Intent(this, SignInActivity::class.java)
-//        }
+        val intent = if (!token.isNullOrEmpty()) {
+            Intent(this, HomeActivity::class.java)
+        } else {
+            Intent(this, SignInActivity::class.java)
+        }
 
         startActivity(intent)
         finish()
